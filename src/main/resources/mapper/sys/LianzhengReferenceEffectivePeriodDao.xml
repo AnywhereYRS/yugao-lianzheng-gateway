@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yugao.lianzheng.modules.sys.dao.LianzhengReferenceEffectivePeriodDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceEffectivePeriodEntity">
+        <id column="lianzheng_reference_effective_period_id" property="lianzhengReferenceEffectivePeriodId" />
+        <result column="lianzheng_reference_id" property="lianzhengReferenceId" />
+        <result column="date_from" property="dateFrom" />
+        <result column="date_to" property="dateTo" />
+        <result column="status" property="status" />
+        <result column="remarks" property="remarks" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        lianzheng_reference_effective_period_id AS "lianzhengReferenceEffectivePeriodId", lianzheng_reference_id AS "lianzheng_reference_id",
+        date_from AS "dateFrom", date_to AS "dateTo", status AS "status", remarks AS "remarks"
+    </sql>
+
+    <!-- 查询廉政资料的生效时段 -->
+    <select id="getLianzhengReferenceEffectivePeriod" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceEffectivePeriodEntity">
+        select
+        <include refid="Base_Column_List"></include>
+        from lianzheng_reference_effective_period
+        where status=1 and lianzheng_reference_id=#{lianzhengReferenceId}
+        order by created_at desc
+    </select>
+
+    <!-- 更新廉政资料的生效时段 -->
+    <!-- 更新廉政信箱 -->
+    <update id="updateLianzhengReferenceEffectivePeriod"  parameterType="com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceEffectivePeriodEntity">
+        update lianzheng_reference_effective_period
+        <set>
+            <if test="lzReferenceEffectivePeriodEntity.dateFrom != null">date_from=#{lzReferenceEffectivePeriodEntity.dateFrom},</if>
+            <if test="lzReferenceEffectivePeriodEntity.dateTo != null">date_to=#{lzReferenceEffectivePeriodEntity.dateTo},</if>
+            <if test="lzReferenceEffectivePeriodEntity.status != null">status=#{lzReferenceEffectivePeriodEntity.status},</if>
+        </set>
+        where lianzheng_reference_id=#{lzReferenceEffectivePeriodEntity.lianzhengReferenceId}
+    </update>
+
+</mapper>

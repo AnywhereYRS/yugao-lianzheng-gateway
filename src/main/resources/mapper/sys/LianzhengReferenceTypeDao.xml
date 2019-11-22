@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yugao.lianzheng.modules.sys.dao.LianzhengReferenceTypeDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceTypeEntity">
+        <id column="lianzheng_reference_type_id" property="lianzhengReferenceTypeId" />
+        <result column="name" property="name" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="status" property="status" />
+        <result column="remarks" property="remarks" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        lianzheng_reference_type_id AS "lianzhengReferenceTypeId", name AS "name",
+        created_by AS "createdBy", created_at AS "createdAt", updated_by AS "updatedBy", updated_at AS "updatedAt", status AS "status", remarks AS "remarks"
+    </sql>
+
+    <!-- 查询廉政资料列表 -->
+    <select id="getLianzhengReferenceTypeList" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceTypeEntity">
+        select
+        <include refid="Base_Column_List"></include>
+        from lianzheng_reference_type
+        where status=1
+        order by created_at desc
+    </select>
+</mapper>

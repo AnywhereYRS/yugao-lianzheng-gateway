@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yugao.lianzheng.modules.sys.dao.LianzhengUndoDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yugao.lianzheng.modules.sys.entity.LianzhengUndoEntity">
+        <id column="lianzheng_undo_id" property="lianzhengUndoId" />
+        <result column="lianzheng_reference_id" property="lianzhengReferenceId" />
+        <result column="type" property="type" />
+        <result column="due_by" property="dueBy" />
+        <result column="finished_by" property="finishedBy" />
+        <result column="due_at" property="dueAt" />
+        <result column="finished_at" property="finishedAt" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="status" property="status" />
+        <result column="remarks" property="remarks" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        lianzheng_undo_id AS "lianzhengUndoId", lianzheng_reference_id AS "lianzhengReferenceId", type AS "type", due_by AS "dueBy", finished_by AS "finishedBy", due_at AS "dueAt", finished_at AS "finishedAt",
+        created_by AS "createdBy", created_at AS "createdAt", updated_by AS "updatedBy", updated_at AS "updatedAt", status AS "status", remarks AS "remarks"
+    </sql>
+
+    <!-- 查询廉政待办或待阅列表 -->
+    <select id="queryList" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengUndoEntity">
+        select
+        <include refid="Base_Column_List"></include>
+        from lianzheng_undo
+       <where>
+           <if test="lianzhengReferenceId != null">and lianzheng_reference_id=#{lianzhengReferenceId}</if>
+           <if test="type != null">and type=#{type}</if>
+           <if test="dueBy != null">and due_by=#{dueBy}</if>
+           <if test="finishedBy != null">and finished_by=#{finishedBy}</if>
+           <if test="status != null">and status=#{status}</if>
+           <if test="status == null">and status=0</if>
+       </where>
+        order by created_at desc
+    </select>
+
+    <!-- 更新廉政待办或待阅列表 -->
+    <update id="updateLianzhengUndoEntity"  parameterType="com.yugao.lianzheng.modules.sys.entity.LianzhengUndoEntity">
+        update lianzheng_undo
+        <set>
+            <if test="lzUndoEntity.type != null">type=#{lzUndoEntity.type},</if>
+            <if test="lzUndoEntity.dueBy != null">due_by=#{lzUndoEntity.dueBy},</if>
+            <if test="lzUndoEntity.finishedBy != null">finished_by=#{lzUndoEntity.finishedBy},</if>
+            <if test="lzUndoEntity.dueAt != null">due_at=#{lzUndoEntity.dueAt},</if>
+            <if test="lzUndoEntity.finishedAt != null">finished_at=#{lzUndoEntity.finishedAt},</if>
+            <if test="lzUndoEntity.status != null">status=#{lzUndoEntity.status},</if>
+        </set>
+        where lianzheng_undo_id=#{lzUndoEntity.lianzhengUndoId}
+    </update>
+
+    <!-- 删除廉政待办或待阅列表 -->
+    <update id="deleteLianzhengUndoEntity"  parameterType="com.yugao.lianzheng.modules.sys.entity.LianzhengUndoEntity">
+        update lianzheng_undo
+        set status=-1
+        where lianzheng_undo_id=#{id}
+    </update>
+</mapper>

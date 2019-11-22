@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yugao.lianzheng.modules.sys.dao.LianzhengReferenceDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceEntity">
+        <id column="lianzheng_reference_id" property="lianzhengReferenceId" />
+        <result column="title" property="title" />
+        <result column="type" property="type" />
+        <result column="department" property="department" />
+        <result column="project" property="project" />
+        <result column="project_name" property="projectName" />
+        <result column="content" property="content" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="status" property="status" />
+        <result column="remarks" property="remarks" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        lianzheng_reference_id AS "lianzhengReferenceId", title AS "title", type AS "type", department AS "department",  project AS "project",  project_name AS "projectName",  content AS "content",
+        created_by AS "createdBy", created_at AS "createdAt", updated_by AS "updatedBy", updated_at AS "updatedAt", status AS "status", remarks AS "remarks"
+    </sql>
+
+    <!-- 更新数据 -->
+    <update id="updateLianzhengReference" parameterType="com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceEntity">
+        update lianzheng_reference
+        <set>
+            <if test="lzReferenceEntity.title != null">title=#{lzReferenceEntity.title},</if>
+            <if test="lzReferenceEntity.content != null">content=#{lzReferenceEntity.content},</if>
+            <if test="lzReferenceEntity.type != null">type=#{lzReferenceEntity.type},</if>
+            <if test="lzReferenceEntity.department != null">type=#{lzReferenceEntity.department},</if>
+            <if test="lzReferenceEntity.project_name != null">type=#{lzReferenceEntity.project_name},</if>
+            <if test="lzReferenceEntity.project != null">type=#{lzReferenceEntity.project},</if>
+            <if test="lzReferenceEntity.status != null">status=#{lzReferenceEntity.status},</if>
+        </set>
+        where lianzheng_reference_id=#{LianzhengReferenceEntity.lianzhengReferenceId}
+    </update>
+
+    <!-- 查询廉政资料列表 -->
+    <select id="getLianzhengReferenceList" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceEntity">
+        select
+        <include refid="Base_Column_List"></include>
+        from lianzheng_reference
+        <where>
+            <if test="type != null">and type=#{type}</if>
+            <if test="department != null">and department=#{department}</if>
+            <if test="project != null">and project =  #{project}</if>
+            <if test="pattern != null">and (title LIKE CONCAT('%',#{pattern},'%') or content LIKE CONCAT('%',#{pattern},'%'))</if>
+            and status=1
+        </where>
+        order by created_at desc
+    </select>
+
+    <!-- 删除廉政资料 -->
+    <update id="deteleLianzhengReference" >
+        update lianzheng_reference set status=-1 where lianzheng_reference_id=#{id}
+    </update>
+
+    <!-- 查询廉政资料详情 -->
+    <select id="getLianzhengReferenceDetail" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceEntity">
+        select
+        <include refid="Base_Column_List"></include>
+        from lianzheng_reference
+        where lianzheng_reference_id=#{id}
+        order by created_at desc
+    </select>
+</mapper>
