@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 记事本管理器
+ * 首页-廉政信箱
  */
 @RestController
 @RequestMapping("/contact")

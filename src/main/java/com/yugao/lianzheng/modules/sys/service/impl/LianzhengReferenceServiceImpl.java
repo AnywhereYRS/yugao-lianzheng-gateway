@@ -15,8 +15,13 @@ public class LianzhengReferenceServiceImpl extends ServiceImpl<LianzhengReferenc
     private LianzhengReferenceDao lzReferenceDao;
 
     @Override
-    public List<LianzhengReferenceEntity> getLianzhengReferenceList(int type, String department, String project, String pattern){
-        return lzReferenceDao.getLianzhengReferenceList(type, department, project, pattern);
+    public List<LianzhengReferenceEntity> getLianzhengReferenceList(int type, String department, String project, String pattern,int page,int size){
+        return lzReferenceDao.getLianzhengReferenceList(type, department, project, pattern,page,size);
+    }
+
+    @Override
+    public long getLianzhengReferenceListCount(int type, String department, String project, String pattern){
+        return lzReferenceDao.getLianzhengReferenceListCount(type, department, project, pattern);
     }
 
     @Override

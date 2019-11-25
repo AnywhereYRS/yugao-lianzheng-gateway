@@ -21,8 +21,13 @@ public class LianzhengDongtaiServiceImpl extends ServiceImpl<LianzhengDongtaiDao
     }
 
     @Override
-    public List<LianzhengDongtaiEntity> queryList(String createdBy, String beginTime, String endTime, String pattern, String status) {
-        return this.lzDongtaiDao.queryList(createdBy, beginTime, endTime, pattern, status);
+    public List<LianzhengDongtaiEntity> queryList(String createdBy, String beginTime, String endTime, String pattern, String status,int page,int size) {
+        return this.lzDongtaiDao.queryList(createdBy, beginTime, endTime, pattern, status,page,size);
+    }
+
+    @Override
+    public long queryListCount(String createdBy, String beginTime, String endTime, String pattern, String status) {
+        return this.lzDongtaiDao.queryListCount(createdBy, beginTime, endTime, pattern, status);
     }
 
     @Override

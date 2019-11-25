@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * 记事本管理器
+ * 资料文件类型
  */
 @RestController
 @RequestMapping("/referenceFileType")

@@ -2,6 +2,7 @@ package com.yugao.lianzheng.modules.sys.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.yugao.lianzheng.common.utils.DateUtils;
+import com.yugao.lianzheng.common.utils.PageBar;
 import com.yugao.lianzheng.common.utils.R;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity;
@@ -15,10 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * 记事本管理器
+ * 廉政资料
  */
 @RestController
 @RequestMapping("/reference")
@@ -68,11 +71,22 @@ public class LianzhengReferenceController extends AbstractController{
 
     @RequestMapping(method = RequestMethod.GET, path = "/findList")
     @ResponseBody
-    public R queryList(@Param("type") int type, @Param("department") String department, @Param("project") String project, @Param("pattern") String pattern) throws Exception {
+    public R queryList(@Param("type") int type,
+                       @Param("department") String department,
+                       @Param("project") String project,
+                       @Param("pattern") String pattern,
+                       @Param("page") int page,
+                       @Param("size") int size) throws Exception {
         LianzhengUserEntity user=getUser();
-
-        List<LianzhengReferenceEntity> list=this.lzReferenceService.getLianzhengReferenceList(type, department, project, pattern);
-        return R.ok().put("page",list);
+        page =  page >1 ? page : 1;
+        size =  size >0 ? size : 20;
+        int toIndexNum = (page -1) * size;
+        List<LianzhengReferenceEntity> list=this.lzReferenceService.getLianzhengReferenceList(type, department, project, pattern,toIndexNum,size);
+        PageBar pagebar = new PageBar();
+        pagebar.setPage(page);
+        pagebar.setSize(size);
+        pagebar.setTotal(lzReferenceService.getLianzhengReferenceListCount(type, department, project, pattern));
+        return R.ok().put("list",list).put("pagebar",pagebar);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/delete")

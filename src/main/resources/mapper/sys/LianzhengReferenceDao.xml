@@ -53,6 +53,22 @@
             and status=1
         </where>
         order by created_at desc
+        limit #{page},#{size}
+    </select>
+
+    <!-- 查询廉政资料列表总记录 -->
+    <select id="getLianzhengReferenceListCount" resultType="java.lang.Long">
+        select
+        count(1)
+        from lianzheng_reference
+        <where>
+            <if test="type != null">and type=#{type}</if>
+            <if test="department != null">and department=#{department}</if>
+            <if test="project != null">and project =  #{project}</if>
+            <if test="pattern != null">and (title LIKE CONCAT('%',#{pattern},'%') or content LIKE CONCAT('%',#{pattern},'%'))</if>
+            and status=1
+        </where>
+        order by created_at desc
     </select>
 
     <!-- 删除廉政资料 -->

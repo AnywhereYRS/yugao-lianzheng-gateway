@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 记事本管理器
+ * 廉政公告涵时间限制
  */
 @RestController
 @RequestMapping("/referenceEffPeriod")

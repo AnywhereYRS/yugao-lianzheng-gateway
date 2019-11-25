@@ -18,7 +18,10 @@ public abstract class AbstractController {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     protected LianzhengUserEntity getUser() {
-        return (LianzhengUserEntity) SecurityUtils.getSubject().getPrincipal();
+        //return (LianzhengUserEntity) SecurityUtils.getSubject().getPrincipal();
+        LianzhengUserEntity user = new LianzhengUserEntity();
+        user.setLianzhengUserId(1l);
+        return user;
     }
 
     /*protected Long getUserId() {

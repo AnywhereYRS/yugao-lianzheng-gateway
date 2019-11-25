@@ -3,6 +3,7 @@ package com.yugao.lianzheng.modules.sys.controller;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.yugao.lianzheng.common.utils.DateUtils;
+import com.yugao.lianzheng.common.utils.PageBar;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengDongtaiEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity;
 import com.yugao.lianzheng.modules.sys.service.LianzhengDongtaiService;
@@ -18,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 记事本管理器
+ * 廉政动态
  */
 @RestController
 @RequestMapping("/dongtai")
@@ -62,19 +63,32 @@ public class LianzhengDongtaiController extends AbstractController{
     @RequestMapping(method = RequestMethod.GET, path = "/findById")
     @ResponseBody
     public R queryByID(@Param("id") String id) {
-        //LianzhengUserEntity user=getUser();
+        LianzhengUserEntity user=getUser();
         LianzhengDongtaiEntity entity=this.lzDongtaiService.getLianzhengDongtaiDetail(id);
         return R.ok().put("data",entity);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/findList")
     @ResponseBody
-    public R queryList(@Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("pattern") String pattern, @Param("status") String status) throws Exception {
+    public R queryList(@Param("beginTime") String beginTime,
+                       @Param("endTime") String endTime,
+                       @Param("pattern") String pattern,
+                       @Param("status") String status,
+                       @Param("page") int page,
+                       @Param("size") int size) throws Exception {
         LianzhengUserEntity user=getUser();
 
         status = (status == null || status.length()<=0) ? "1" : status;
-        List<LianzhengDongtaiEntity> list=this.lzDongtaiService.queryList(String.valueOf(user.getLianzhengUserId()), beginTime, endTime, pattern, status);
-        return R.ok().put("page",list);
+        page =  page >1 ? page : 1;
+        size =  size >0 ? size : 20;
+        int toIndexNum = (page -1) * size;
+        List<LianzhengDongtaiEntity> list=this.lzDongtaiService.queryList(String.valueOf(user.getLianzhengUserId()), beginTime, endTime, pattern, status,toIndexNum,size);
+
+        PageBar pagebar = new PageBar();
+        pagebar.setPage(page);
+        pagebar.setSize(size);
+        pagebar.setTotal(lzDongtaiService.queryListCount(String.valueOf(user.getLianzhengUserId()), beginTime, endTime, pattern, status));
+        return R.ok().put("list",list).put("pagebar",pagebar);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/delete")

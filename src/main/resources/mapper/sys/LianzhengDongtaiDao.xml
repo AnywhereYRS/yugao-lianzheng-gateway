@@ -47,6 +47,22 @@
             <if test="status != null">and status=#{status}</if>
         </where>
         order by created_at desc
+        limit #{page},#{size}
+    </select>
+
+    <!-- 查询廉政动态列表总数 -->
+    <select id="queryListCount" resultType="java.lang.Long">
+        select
+        count(1)
+        from lianzheng_dongtai
+        <where>
+            <if test="createdBy != null">and created_by=#{createdBy}</if>
+            <if test="beginTime != null">and created_at  <![CDATA[ >= ]]> #{beginTime}</if>
+            <if test="endTime != null">and created_at <![CDATA[ <= ]]> #{endTime}</if>
+            <if test="pattern != null">and (title LIKE CONCAT('%',#{pattern},'%') or content LIKE CONCAT('%',#{pattern},'%'))</if>
+            <if test="status != null">and status=#{status}</if>
+        </where>
+        order by created_at desc
     </select>
 
     <!-- 删除廉政动态 -->

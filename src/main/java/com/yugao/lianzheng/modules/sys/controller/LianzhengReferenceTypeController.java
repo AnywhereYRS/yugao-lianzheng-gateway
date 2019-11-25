@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 记事本管理器
+ * 资料类型
  */
 @RestController
 @RequestMapping("/referenceType")
