@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.yugao</groupId>
-    <artifactId>lianzheng</artifactId>
+    <artifactId>yugao-lianzheng-gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
-    <name>lianzheng</name>
+    <packaging>jar</packaging>
+    <name>yugao-lianzheng-gateway</name>
     <description>渝高廉政系统</description>
 
     <properties>
@@ -235,12 +235,61 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profileActive>dev</profileActive>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profileActive>test</profileActive>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profileActive>prod</profileActive>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
-        <finalName>yugaoLianzhengApi</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <excludes>
+                    <exclude>dev/**</exclude>
+                    <exclude>test/**</exclude>
+                    <exclude>prod/**</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/${profileActive}</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>*.properties</include>
+                    <include>*.xml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.yugao.lianzheng.LianzhengApplication</mainClass>
+                </configuration>
             </plugin>
             <!-- 跳过单元测试 -->
             <plugin>
