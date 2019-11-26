@@ -23,8 +23,13 @@ public class LianzhengUndoServiceImpl extends ServiceImpl<LianzhengUndoDao, Lian
     }
 
     @Override
-    public List<LianzhengUndoEntity> queryList(String lianzhengReferenceId, String type, String dueBy, String finishedBy, String status){
-        return lzUndoDao.queryList(lianzhengReferenceId, type, dueBy, finishedBy, status);
+    public List<LianzhengUndoEntity> queryList(String lianzhengReferenceId, String type, String dueBy, String finishedBy, String status,int page,int size){
+        return lzUndoDao.queryList(lianzhengReferenceId, type, dueBy, finishedBy, status,page,size);
+    }
+
+    @Override
+    public long queryListCount(String lianzhengReferenceId, String type, String dueBy, String finishedBy, String status){
+        return lzUndoDao.queryListCount(lianzhengReferenceId, type, dueBy, finishedBy, status);
     }
 
     @Override

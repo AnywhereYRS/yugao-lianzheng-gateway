@@ -2,17 +2,15 @@ package com.yugao.lianzheng.modules.sys.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.yugao.lianzheng.common.utils.DateUtils;
+import com.yugao.lianzheng.common.utils.PageBar;
 import com.yugao.lianzheng.common.utils.R;
-import com.yugao.lianzheng.modules.sys.entity.LianzhengDongtaiEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengUndoEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity;
-import com.yugao.lianzheng.modules.sys.service.LianzhengDongtaiService;
 import com.yugao.lianzheng.modules.sys.service.LianzhengUndoService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -56,12 +54,24 @@ public class LianzhengUndoController extends AbstractController{
 
     @RequestMapping(method = RequestMethod.GET, path = "/findList")
     @ResponseBody
-    public R queryList(@Param("lianzhengReferenceId") String lianzhengReferenceId, @Param("type") String type, @Param("dueBy") String dueBy, @Param("finishedBy") String finishedBy, @Param("status") String status) throws Exception {
+    public R queryList(@Param("lianzhengReferenceId") String lianzhengReferenceId,
+                       @Param("type") String type,
+                       @Param("dueBy") String dueBy,
+                       @Param("finishedBy") String finishedBy,
+                       @Param("status") String status,
+                       @Param("page") int page,
+                       @Param("size") int size) throws Exception {
         LianzhengUserEntity user=getUser();
-
+        page =  page >1 ? page : 1;
+        size =  size >0 ? size : 20;
+        int toIndexNum = (page -1) * size;
         status = (status == null || status.length()<=0) ? "0" : status;
-        List<LianzhengUndoEntity> list=this.lzUndoService.queryList(lianzhengReferenceId, type, dueBy, finishedBy, status);
-        return R.ok().put("page",list);
+        List<LianzhengUndoEntity> list=this.lzUndoService.queryList(lianzhengReferenceId, type, dueBy, finishedBy, status,toIndexNum,size);
+        PageBar pagebar = new PageBar();
+        pagebar.setPage(page);
+        pagebar.setSize(size);
+        pagebar.setTotal(lzUndoService.queryListCount(lianzhengReferenceId, type, dueBy, finishedBy, status));
+        return R.ok().put("list",list).put("pagebar",pagebar);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/delete")

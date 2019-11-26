@@ -1,18 +1,14 @@
 package com.yugao.lianzheng.modules.sys.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.yugao.lianzheng.common.utils.DateUtils;
 import com.yugao.lianzheng.common.utils.R;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceEffectivePeriodEntity;
-import com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity;
 import com.yugao.lianzheng.modules.sys.service.LianzhengReferenceEffectivePeriodService;
-import com.yugao.lianzheng.modules.sys.service.LianzhengReferenceService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;

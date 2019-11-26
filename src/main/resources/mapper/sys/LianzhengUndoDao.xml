@@ -39,6 +39,23 @@
            <if test="status == null">and status=0</if>
        </where>
         order by created_at desc
+        limit #{page},#{size}
+    </select>
+
+    <!-- 查询廉政待办或待阅列表总数 -->
+    <select id="queryListCount" resultType="java.lang.Long">
+        select
+        count(1)
+        from lianzheng_undo
+        <where>
+            <if test="lianzhengReferenceId != null">and lianzheng_reference_id=#{lianzhengReferenceId}</if>
+            <if test="type != null">and type=#{type}</if>
+            <if test="dueBy != null">and due_by=#{dueBy}</if>
+            <if test="finishedBy != null">and finished_by=#{finishedBy}</if>
+            <if test="status != null">and status=#{status}</if>
+            <if test="status == null">and status=0</if>
+        </where>
+        order by created_at desc
     </select>
 
     <!-- 更新廉政待办或待阅列表 -->
