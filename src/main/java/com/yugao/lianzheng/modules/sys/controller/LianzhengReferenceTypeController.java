@@ -29,6 +29,6 @@ public class LianzhengReferenceTypeController extends AbstractController{
         LianzhengUserEntity user=getUser();
 
         List<LianzhengReferenceTypeEntity> list=this.lzReferenceTypeService.getLianzhengReferenceTypeList();
-        return R.ok().put("page",list);
+        return R.ok().put("list",list);
     }
 }
