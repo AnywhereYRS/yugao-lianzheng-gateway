@@ -31,6 +31,6 @@ public class LianzhengReferenceFileTypeController extends AbstractController{
         LianzhengUserEntity user=getUser();
 
         List<LianzhengReferenceFileTypeEntity> list=this.lzReferenceFileTypeService.getLianzhengReferenceFileTypeList(referenceTypeId);
-        return R.ok().put("page",list);
+        return R.ok().put("list",list);
     }
 }
