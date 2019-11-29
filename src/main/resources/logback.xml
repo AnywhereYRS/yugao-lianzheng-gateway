@@ -53,21 +53,21 @@
     </appender>
 
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logger.root}/${app.name}-error.log</file>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>warn</level>
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${logger.root:-/log}/${app.name}-error.%d{yyyy-MM-dd}.log.zip
-            </fileNamePattern>
-            <maxHistory>7</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <!--<pattern>%-4relative [%thread] %-5level %logger{36} - %msg%n</pattern> -->
-            <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> -->
-            <pattern>${MY_PATTERN}</pattern>
-            <charset>UTF-8</charset>
-        </encoder>
+    <file>${logger.root}/${app.name}-error.log</file>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <level>warn</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${logger.root:-/log}/${app.name}-error.%d{yyyy-MM-dd}.log.zip
+        </fileNamePattern>
+        <maxHistory>7</maxHistory>
+    </rollingPolicy>
+    <encoder>
+        <!--<pattern>%-4relative [%thread] %-5level %logger{36} - %msg%n</pattern> -->
+        <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> -->
+        <pattern>${MY_PATTERN}</pattern>
+        <charset>UTF-8</charset>
+    </encoder>
     </appender>
 
 
@@ -81,6 +81,8 @@
         <appender-ref ref="info"/>
         <!--&lt;!&ndash; <appender-ref ref="warn" /> &ndash;&gt;-->
         <appender-ref ref="error"/>
+
+        <appender-ref ref="debug"/>
     </root>
 
 </configuration>

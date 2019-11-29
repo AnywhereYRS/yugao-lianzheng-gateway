@@ -22,7 +22,7 @@
     </sql>
 
     <!-- 查询廉政资料列表 -->
-    <select id="getLianzhengReferenceFileTypeList" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceTypeEntity">
+    <select id="getLianzhengReferenceFileTypeList" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceFileTypeEntity">
         select
         <include refid="Base_Column_List"></include>
         from lianzheng_reference_file_type

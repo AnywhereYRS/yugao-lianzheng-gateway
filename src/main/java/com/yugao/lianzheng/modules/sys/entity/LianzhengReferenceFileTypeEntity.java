@@ -32,7 +32,6 @@ public class LianzhengReferenceFileTypeEntity implements Serializable {
     /**
      * 指定哪些廉政资料类型可以上传该类别的附件，多类型用英文逗号(,)分割
      */
-    @TableId
     private String lianzhengReferenceTypeId;
 
     /**

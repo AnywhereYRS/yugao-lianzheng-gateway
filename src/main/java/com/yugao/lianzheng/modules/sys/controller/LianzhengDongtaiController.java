@@ -7,6 +7,7 @@ import com.yugao.lianzheng.modules.sys.entity.LianzhengDongtaiEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengFileEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity;
 import com.yugao.lianzheng.modules.sys.model.ModuleCode;
+import com.yugao.lianzheng.modules.sys.model.NewsCode;
 import com.yugao.lianzheng.modules.sys.service.LianzhengDongtaiService;
 import com.yugao.lianzheng.common.utils.R;
 import com.yugao.lianzheng.modules.sys.service.LianzhengFileService;
@@ -51,7 +52,7 @@ public class LianzhengDongtaiController extends AbstractController{
             entity.setUpdatedBy(user.getLianzhengUserId().intValue());
             entity.setCreatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
             entity.setUpdatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
-            entity.setStatus(1);
+            entity.setStatus(NewsCode.WAIT_PUBLISH.getCode());
             entity.setType(0);
             this.lzDongtaiService.save(entity);
             if (StringUtils.isNotBlank(entity.getImageId())){
@@ -96,7 +97,7 @@ public class LianzhengDongtaiController extends AbstractController{
                        @Param("size") int size) throws Exception {
         LianzhengUserEntity user=getUser();
 
-        status = (status == null || status.length()<=0) ? "1" : status;
+        //status = (status == null || status.length()<=0) ? "1" : status;
         page =  page >1 ? page : 1;
         size =  size >0 ? size : 20;
         int toIndexNum = (page -1) * size;
@@ -109,12 +110,36 @@ public class LianzhengDongtaiController extends AbstractController{
         return R.ok().put("list",list).put("pagebar",pagebar);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/delete")
+    @RequestMapping(method = RequestMethod.GET, path = "/delete")
     @ResponseBody
     public R deleteLianzhengDongtai(@Param("id") String id) throws Exception {
         LianzhengUserEntity user=getUser();
+        LianzhengDongtaiEntity entity = new LianzhengDongtaiEntity();
+        entity.setLianzhengDongtaiId(id);
+        entity.setStatus(NewsCode.HAVETO_DELETE.getCode());
+        this.lzDongtaiService.updateLianzhengDongtai(entity);
+        return R.ok();
+    }
 
-        this.lzDongtaiService.deleteLianzhengDongtai(id);
+    @RequestMapping(method = RequestMethod.GET, path = "/publish")
+    @ResponseBody
+    public R publishLianzhengDongtai(@Param("id") String id) throws Exception {
+        LianzhengUserEntity user=getUser();
+        LianzhengDongtaiEntity entity = new LianzhengDongtaiEntity();
+        entity.setLianzhengDongtaiId(id);
+        entity.setStatus(NewsCode.HAVETO_PUBLISH.getCode());
+        this.lzDongtaiService.updateLianzhengDongtai(entity);
+        return R.ok();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/cancel")
+    @ResponseBody
+    public R cancelLianzhengDongtai(@Param("id") String id) throws Exception {
+        LianzhengUserEntity user=getUser();
+        LianzhengDongtaiEntity entity = new LianzhengDongtaiEntity();
+        entity.setLianzhengDongtaiId(id);
+        entity.setStatus(NewsCode.WAIT_PUBLISH.getCode());
+        this.lzDongtaiService.updateLianzhengDongtai(entity);
         return R.ok();
     }
 }

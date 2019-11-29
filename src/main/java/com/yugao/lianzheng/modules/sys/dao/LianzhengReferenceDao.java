@@ -7,13 +7,15 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface LianzhengReferenceDao extends BaseMapper<LianzhengReferenceEntity> {
-    List<LianzhengReferenceEntity> getLianzhengReferenceList(@Param("type") int type,
+    List<LianzhengReferenceEntity> getLianzhengReferenceList(@Param("type") String type,
+                                                             @Param("referenceType") String referenceType,
                                                              @Param("departmentId") String departmentId,
                                                              @Param("project") String project,
                                                              @Param("pattern") String pattern,
                                                              @Param("page") int page,
                                                              @Param("size") int size);
-    long getLianzhengReferenceListCount(@Param("type") int type,
+    long getLianzhengReferenceListCount(@Param("type") String type,
+                                        @Param("referenceType") String referenceType,
                                         @Param("departmentId") String departmentId,
                                         @Param("project") String project,
                                         @Param("pattern") String pattern);

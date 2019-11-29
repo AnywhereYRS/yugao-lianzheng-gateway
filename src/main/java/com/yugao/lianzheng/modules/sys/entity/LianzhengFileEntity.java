@@ -104,6 +104,12 @@ public class LianzhengFileEntity implements Serializable {
      */
     private String remarks;
 
+    /**
+     * 文件地址
+     */
+    @TableField(exist = false)
+    private String url;
+
 
     @Override
     public String toString() {

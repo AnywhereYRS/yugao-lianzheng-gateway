@@ -26,6 +26,9 @@ public class LianzhengFileServiceImpl extends ServiceImpl<LianzhengFileDao, Lian
     @Value("${uploadFile.path}")
     private String uploadLocal;
 
+    @Value("${file.preview.api}")
+    private String previewApi;
+
 
     @Autowired
     private LianzhengFileDao fileInfoDao;
@@ -91,8 +94,12 @@ public class LianzhengFileServiceImpl extends ServiceImpl<LianzhengFileDao, Lian
     }
 
     @Override
-    public List<LianzhengFileEntity> queryFileList(String businessId, String moduleId, String createdBy) {
-        return this.fileInfoDao.getFileList(businessId, moduleId, createdBy);
+    public List<LianzhengFileEntity> queryFileList(String businessId, String moduleId, String createdBy,int page,int size) {
+        List<LianzhengFileEntity> list =  fileInfoDao.getFileList(businessId, moduleId, createdBy,page,size);
+        for (LianzhengFileEntity entity : list) {
+            entity.setUrl("lianzheng/api/"+previewApi+"?businessId="+entity.getBusinessId()+"&moduleId="+entity.getModuleId());
+        }
+        return list;
     }
 
     /**
@@ -116,5 +123,10 @@ public class LianzhengFileServiceImpl extends ServiceImpl<LianzhengFileDao, Lian
     @Override
     public void updateFile(LianzhengFileEntity entity){
         fileInfoDao.updateFile(entity);
+    }
+
+    @Override
+    public LianzhengFileEntity getFile(String businessId, String moduleId){
+        return fileInfoDao.findByBusinessIdAndModuleId(businessId,moduleId);
     }
 }

@@ -47,8 +47,8 @@ public class FileController extends AbstractController {
      * @return
      */
     @GetMapping("/preview")
-    public void open(HttpServletResponse response, @Param("fileId") String fileId) throws IOException {
-        LianzhengFileEntity entity = fileInfoService.getFileByFileId(fileId);
+    public void open(HttpServletResponse response, @Param("businessId") String businessId,@Param("moduleId") String moduleId) throws IOException {
+        LianzhengFileEntity entity = fileInfoService.getFile(businessId,moduleId);
         if (null == entity || null == entity.getPath()) {
             fileIsExist(response);
             return;
@@ -92,8 +92,8 @@ public class FileController extends AbstractController {
      * @return
      */
     @GetMapping("/download")
-    public void download(HttpServletResponse response, @Param("fileId") String fileId) throws IOException {
-        LianzhengFileEntity entity = fileInfoService.getFileByFileId(fileId);
+    public void download(HttpServletResponse response, @Param("businessId") String businessId,@Param("moduleId") String moduleId) throws IOException {
+        LianzhengFileEntity entity = fileInfoService.getFile(businessId,moduleId);
         if (null == entity || null == entity.getPath()) {
             fileIsExist(response);
             return;
@@ -139,10 +139,17 @@ public class FileController extends AbstractController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "/list")
     @ResponseBody
-    public R queryFileList(@Param("businessId") String businessId, @Param("moduleId") String moduleId, @Param("createdBy") String createdBy){
+    public R queryFileList(@Param("businessId") String businessId,
+                           @Param("moduleId") String moduleId,
+                           @Param("createdBy") String createdBy,
+                           @Param("page") int page,
+                           @Param("size") int size){
         LianzhengUserEntity user=getUser();
         createdBy = createdBy == null || createdBy.length()<=0 ? String.valueOf(user.getLianzhengUserId()) : createdBy;
-        List<LianzhengFileEntity> list=this.fileInfoService.queryFileList(businessId, moduleId, createdBy);
+        page =  page >1 ? page : 1;
+        size =  size >0 ? size : 20;
+        int toIndexNum = (page -1) * size;
+        List<LianzhengFileEntity> list=this.fileInfoService.queryFileList(businessId, moduleId, createdBy,toIndexNum,size);
         if(list==null){
             return R.ok().put("data",new ArrayList<>());
         }else{

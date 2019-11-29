@@ -52,6 +52,7 @@
             and status=1
         </where>
         order by create_time desc
+        limit #{page},#{size}
     </select>
 
     <update id="deleteFileById">

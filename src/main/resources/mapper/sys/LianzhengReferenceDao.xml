@@ -23,8 +23,10 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        lianzheng_reference_id AS "lianzhengReferenceId", title AS "title", type AS "type", department_id AS "departmentId", department_name AS "departmentName" , project AS "project",  project_name AS "projectName",  content AS "content",
-        created_by_id AS "createdById",created_by_name AS "createdByName", created_at AS "createdAt", updated_by AS "updatedBy", updated_at AS "updatedAt", status AS "status", remarks AS "remarks"
+        lianzheng_reference_id AS "lianzhengReferenceId", title AS "title", type AS "type", department_id AS "departmentId",
+         department_name AS "departmentName" , project AS "project",  project_name AS "projectName",  content AS "content",
+        created_by_id AS "createdById",created_by_name AS "createdByName", created_at AS "createdAt", updated_by AS "updatedBy",
+         updated_at AS "updatedAt", status AS "status", remarks AS "remarks",reference_type AS "referenceType"
     </sql>
 
     <!-- 更新数据 -->
@@ -34,11 +36,12 @@
             <if test="lzReferenceEntity.title != null">title=#{lzReferenceEntity.title},</if>
             <if test="lzReferenceEntity.content != null">content=#{lzReferenceEntity.content},</if>
             <if test="lzReferenceEntity.type != null">type=#{lzReferenceEntity.type},</if>
-            <if test="lzReferenceEntity.departmentId != null">type=#{lzReferenceEntity.department_id},</if>
-            <if test="lzReferenceEntity.departmentName != null">type=#{lzReferenceEntity.department_name},</if>
-            <if test="lzReferenceEntity.project_name != null">type=#{lzReferenceEntity.project_name},</if>
-            <if test="lzReferenceEntity.project != null">type=#{lzReferenceEntity.project},</if>
+            <if test="lzReferenceEntity.departmentId != null">department_id=#{lzReferenceEntity.department_id},</if>
+            <if test="lzReferenceEntity.departmentName != null">department_name=#{lzReferenceEntity.department_name},</if>
+            <if test="lzReferenceEntity.projectName != null">project_name=#{lzReferenceEntity.project_name},</if>
+            <if test="lzReferenceEntity.project != null">project=#{lzReferenceEntity.project},</if>
             <if test="lzReferenceEntity.status != null">status=#{lzReferenceEntity.status},</if>
+            <if test="lzReferenceEntity.referenceType != null">reference_type=#{lzReferenceEntity.referenceType},</if>
         </set>
         where lianzheng_reference_id=#{LianzhengReferenceEntity.lianzhengReferenceId}
     </update>
@@ -49,6 +52,7 @@
         <include refid="Base_Column_List"></include>
         from lianzheng_reference
         <where>
+            <if test="referenceType != null">reference_type=#{referenceType}</if>
             <if test="type != null">and type=#{type}</if>
             <if test="departmentId != null">and department_id=#{departmentId}</if>
             <if test="project != null">and project =  #{project}</if>
@@ -65,6 +69,7 @@
         count(1)
         from lianzheng_reference
         <where>
+            <if test="referenceType != null">reference_type=#{referenceType}</if>
             <if test="type != null">and type=#{type}</if>
             <if test="departmentId != null">and department_id=#{departmentId}</if>
             <if test="project != null">and project =  #{project}</if>

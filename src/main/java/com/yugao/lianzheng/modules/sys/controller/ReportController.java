@@ -4,9 +4,12 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.yugao.lianzheng.common.utils.DateUtils;
 import com.yugao.lianzheng.common.utils.PageBar;
 import com.yugao.lianzheng.common.utils.R;
+import com.yugao.lianzheng.modules.sys.entity.LianzhengFileEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengReportEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity;
+import com.yugao.lianzheng.modules.sys.model.ModuleCode;
 import com.yugao.lianzheng.modules.sys.model.ReportCode;
+import com.yugao.lianzheng.modules.sys.service.LianzhengFileService;
 import com.yugao.lianzheng.modules.sys.service.LianzhengReportService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +31,9 @@ public class ReportController extends AbstractController{
     @Autowired(required = false)
     private LianzhengReportService lianzhengReportService;
 
+    @Autowired
+    private LianzhengFileService lianzhengFileService;
+
     @RequestMapping(method = RequestMethod.POST, path = "/save")
     @ResponseBody
     public R updateReport(@RequestBody LianzhengReportEntity entity) throws Exception {
@@ -46,6 +52,13 @@ public class ReportController extends AbstractController{
             entity.setUpdateUserId(entity.getCreateUserId());
             entity.setUpdateUserName(entity.getCreateUserName());
             this.lianzhengReportService.save(entity);
+            if (StringUtils.isNotBlank(entity.getFileId())){
+                LianzhengFileEntity fileEntity = new LianzhengFileEntity();
+                fileEntity.setLianzhengFileId(entity.getFileId());
+                fileEntity.setBusinessId(id);
+                fileEntity.setModuleId(String.valueOf(ModuleCode.LIANZHENG_REPOTR.getCode()));
+                lianzhengFileService.updateFile(fileEntity);
+            }
             return R.ok().put("data", entity);
         }
         //更新廉政报告
@@ -87,7 +100,7 @@ public class ReportController extends AbstractController{
         return R.ok().put("list",list).put("pagebar",pagebar);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/delete")
+    @RequestMapping(method = RequestMethod.GET, path = "/delete")
     @ResponseBody
     public R deleteLianzhengReport(@Param("id") long id) throws Exception {
         LianzhengUserEntity user=getUser();
@@ -99,7 +112,7 @@ public class ReportController extends AbstractController{
         return R.ok();
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/publish")
+    @RequestMapping(method = RequestMethod.GET, path = "/publish")
     @ResponseBody
     public R publishLianzhengReport(@Param("id") long id) throws Exception {
         LianzhengUserEntity user=getUser();
@@ -107,6 +120,18 @@ public class ReportController extends AbstractController{
         entity.setReportId(String.valueOf(id));
         entity.setStatusCode(ReportCode.HAVETO_PUBLISH.getCode());
         entity.setStatusDesc(ReportCode.HAVETO_PUBLISH.getMessage());
+        this.lianzhengReportService.updateLianzhengReport(entity);
+        return R.ok();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/cancel")
+    @ResponseBody
+    public R cancelLianzhengReport(@Param("id") long id) throws Exception {
+        LianzhengUserEntity user=getUser();
+        LianzhengReportEntity entity = new LianzhengReportEntity();
+        entity.setReportId(String.valueOf(id));
+        entity.setStatusCode(ReportCode.WAIT_PUBLISH.getCode());
+        entity.setStatusDesc(ReportCode.WAIT_PUBLISH.getMessage());
         this.lianzhengReportService.updateLianzhengReport(entity);
         return R.ok();
     }

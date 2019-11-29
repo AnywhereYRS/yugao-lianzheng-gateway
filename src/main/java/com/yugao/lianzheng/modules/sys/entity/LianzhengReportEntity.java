@@ -1,5 +1,6 @@
 package com.yugao.lianzheng.modules.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -78,5 +79,11 @@ public class LianzhengReportEntity implements Serializable {
      * 报告更新人名称
      */
     private String updateUserName;
+
+    /**
+     * 附件ID
+     */
+    @TableField(exist = false)
+    private String fileId;
 
 }

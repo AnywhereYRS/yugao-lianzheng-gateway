@@ -24,5 +24,9 @@ public interface LianzhengFileDao extends BaseMapper<LianzhengFileEntity> {
     LianzhengFileEntity findByBusinessIdAndModuleId(@Param("businessId") String businessId,@Param("moduleId") String moduleId);
     void deleteFileById(@Param("id") String id);
     void updateFile(@Param("entity") LianzhengFileEntity entity);
-    List<LianzhengFileEntity> getFileList(@Param("businessId") String businessId, @Param("moduleId") String moduleId, @Param("createdBy") String createdBy);
+    List<LianzhengFileEntity> getFileList(@Param("businessId") String businessId,
+                                          @Param("moduleId") String moduleId,
+                                          @Param("createdBy") String createdBy,
+                                          @Param("page") int page,
+                                          @Param("size") int size);
 }

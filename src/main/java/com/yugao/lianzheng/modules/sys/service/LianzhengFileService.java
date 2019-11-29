@@ -28,8 +28,10 @@ public interface LianzhengFileService extends IService<LianzhengFileEntity> {
 
     void updateFile(LianzhengFileEntity entity);
 
-    List<LianzhengFileEntity> queryFileList(String businessId, String moduleId, String createdBy);
+    List<LianzhengFileEntity> queryFileList(String businessId, String moduleId, String createdBy,int page,int size);
 
     LianzhengFileEntity getFileByFileId(String fileId);
+
+    LianzhengFileEntity getFile(String businessId, String moduleId);
 
 }

@@ -4,8 +4,11 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.yugao.lianzheng.common.utils.DateUtils;
 import com.yugao.lianzheng.common.utils.PageBar;
 import com.yugao.lianzheng.common.utils.R;
+import com.yugao.lianzheng.modules.sys.entity.LianzhengFileEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengReferenceEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity;
+import com.yugao.lianzheng.modules.sys.model.ModuleCode;
+import com.yugao.lianzheng.modules.sys.service.LianzhengFileService;
 import com.yugao.lianzheng.modules.sys.service.LianzhengReferenceService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -26,6 +29,9 @@ public class LianzhengReferenceController extends AbstractController{
     @Autowired(required = false)
     private LianzhengReferenceService lzReferenceService;
 
+    @Autowired
+    private LianzhengFileService lianzhengFileService;
+
     @RequestMapping(method = RequestMethod.POST, path = "/addOrUpdate")
     @ResponseBody
     public R updateReference(@RequestBody LianzhengReferenceEntity entity) throws Exception {
@@ -45,8 +51,17 @@ public class LianzhengReferenceController extends AbstractController{
             entity.setCreatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
             entity.setUpdatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
             entity.setStatus(1);
-            entity.setType("0");
+            entity.setType(entity.getType());
             this.lzReferenceService.save(entity);
+            if (entity.getFileIds().length >0){
+                for (String fildId : entity.getFileIds()){
+                    LianzhengFileEntity imagEntity = new LianzhengFileEntity();
+                    imagEntity.setLianzhengFileId(fildId);
+                    imagEntity.setBusinessId(id);
+                    imagEntity.setModuleId(String.valueOf(ModuleCode.LIANZHENG_MEANS.getCode()));
+                    lianzhengFileService.updateFile(imagEntity);
+                }
+            }
             return R.ok().put("data", entity);
         }
         //更新廉政动态
@@ -67,7 +82,8 @@ public class LianzhengReferenceController extends AbstractController{
 
     @RequestMapping(method = RequestMethod.GET, path = "/findList")
     @ResponseBody
-    public R queryList(@Param("type") int type,
+    public R queryList(@Param("type") String type,
+                       @Param("referenceType") String referenceType,
                        @Param("department") String department,
                        @Param("project") String project,
                        @Param("pattern") String pattern,
@@ -77,14 +93,14 @@ public class LianzhengReferenceController extends AbstractController{
         page =  page >1 ? page : 1;
         size =  size >0 ? size : 20;
         int toIndexNum = (page -1) * size;
-        List<LianzhengReferenceEntity> list=this.lzReferenceService.getLianzhengReferenceList(type, department, project, pattern,toIndexNum,size);
+        List<LianzhengReferenceEntity> list=this.lzReferenceService.getLianzhengReferenceList(type,referenceType ,department, project, pattern,toIndexNum,size);
         for (LianzhengReferenceEntity entity : list) {
             entity.setCreatedAt(entity.getCreatedAt().split(" ")[0]);
         }
         PageBar pagebar = new PageBar();
         pagebar.setPage(page);
         pagebar.setSize(size);
-        pagebar.setTotal(lzReferenceService.getLianzhengReferenceListCount(type, department, project, pattern));
+        pagebar.setTotal(lzReferenceService.getLianzhengReferenceListCount(type,referenceType, department, project, pattern));
         return R.ok().put("list",list).put("pagebar",pagebar);
     }
 
