@@ -40,7 +40,7 @@ public class LianzhengReferenceController extends AbstractController{
             }
             String id = IdWorker.getIdStr();
             entity.setLianzhengReferenceId(id);
-            entity.setCreatedBy(user.getLianzhengUserId().intValue());
+            entity.setCreatedById(user.getLianzhengUserId().intValue());
             entity.setUpdatedBy(user.getLianzhengUserId().intValue());
             entity.setCreatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
             entity.setUpdatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
@@ -58,9 +58,10 @@ public class LianzhengReferenceController extends AbstractController{
 
     @RequestMapping(method = RequestMethod.GET, path = "/findById")
     @ResponseBody
-    public R queryByID(@Param("id") int id) {
+    public R queryByID(@Param("id") long id) {
         LianzhengUserEntity user=getUser();
         LianzhengReferenceEntity entity=this.lzReferenceService.getLianzhengReferenceDetail(id);
+        entity.setCreatedAt(entity.getCreatedAt().split(" ")[0]);
         return R.ok().put("data",entity);
     }
 
@@ -77,6 +78,9 @@ public class LianzhengReferenceController extends AbstractController{
         size =  size >0 ? size : 20;
         int toIndexNum = (page -1) * size;
         List<LianzhengReferenceEntity> list=this.lzReferenceService.getLianzhengReferenceList(type, department, project, pattern,toIndexNum,size);
+        for (LianzhengReferenceEntity entity : list) {
+            entity.setCreatedAt(entity.getCreatedAt().split(" ")[0]);
+        }
         PageBar pagebar = new PageBar();
         pagebar.setPage(page);
         pagebar.setSize(size);
@@ -86,7 +90,7 @@ public class LianzhengReferenceController extends AbstractController{
 
     @RequestMapping(method = RequestMethod.POST, path = "/delete")
     @ResponseBody
-    public R deleteLianzhengReference(@Param("id") int id) throws Exception {
+    public R deleteLianzhengReference(@Param("id") long id) throws Exception {
         LianzhengUserEntity user=getUser();
 
         this.lzReferenceService.deteleLianzhengReference(id);

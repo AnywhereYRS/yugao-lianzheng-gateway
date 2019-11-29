@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yugao.lianzheng.modules.sys.dao.LianzhengReportDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yugao.lianzheng.modules.sys.entity.LianzhengReportEntity">
+        <id column="report_id" property="reportId" />
+        <result column="report_title" property="reportTitle" />
+        <result column="from_date" property="fromDate" />
+        <result column="to_date" property="toDate" />
+        <result column="create_date" property="createDate" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="create_user_name" property="createUserName" />
+        <result column="status_code" property="statusCode" />
+        <result column="status_desc" property="statusDesc" />
+        <result column="update_date" property="updateDate" />
+        <result column="update_user_id" property="updateUserId" />
+        <result column="update_user_name" property="updateUserName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        report_id AS "reportId", report_title AS "reportTitle", from_date AS "fromDate", to_date AS "toDate", create_date AS "createDate" ,
+         create_user_id AS "createUserId",  create_user_name AS "createUserName",  status_code AS "statusCode",
+        status_desc AS "statusDesc",update_date AS "updateDate", update_user_id AS "updateUserId", update_user_name AS "updateUserName"
+    </sql>
+
+    <!-- 更新数据 -->
+    <update id="updateLianzhengReport" parameterType="com.yugao.lianzheng.modules.sys.entity.LianzhengReportEntity">
+        update lianzheng_report
+        <set>
+            <if test="entity.reportTitle != null">report_title=#{entity.reportTitle},</if>
+            <if test="entity.fromDate != null">from_date=#{entity.fromDate},</if>
+            <if test="entity.toDate != null">to_date=#{entity.toDate},</if>
+            <if test="entity.statusCode != null">status_code=#{entity.statusCode},</if>
+            <if test="entity.statusDesc != null">status_desc=#{entity.statusDesc},</if>
+            <if test="entity.updateDate != null">update_date=#{entity.updateDate},</if>
+            <if test="entity.updateUserId != null">update_user_id=#{entity.updateUserId},</if>
+            <if test="entity.updateUserName != null">update_user_name=#{entity.updateUserName},</if>
+        </set>
+        where report_id=#{entity.reportId}
+    </update>
+
+    <!-- 查询列表 -->
+    <select id="getLianzhengReportList" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengReportEntity">
+        select
+        <include refid="Base_Column_List"></include>
+        from lianzheng_report
+        order by create_date desc
+        limit #{page},#{size}
+    </select>
+
+    <!-- 查询列表总记录 -->
+    <select id="getLianzhengReportListCount" resultType="java.lang.Long">
+        select
+        count(1)
+        from lianzheng_report
+        order by create_date desc
+    </select>
+
+    <!-- 删除廉政资料 -->
+    <update id="deteleLianzhengReport" >
+        update lianzheng_report set status=2 where report_id=#{id}
+    </update>
+
+    <!-- 查询详情 -->
+    <select id="getLianzhengReportDetail" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengReportEntity">
+        select
+        <include refid="Base_Column_List"></include>
+        from lianzheng_report
+        where report_id=#{id}
+    </select>
+</mapper>

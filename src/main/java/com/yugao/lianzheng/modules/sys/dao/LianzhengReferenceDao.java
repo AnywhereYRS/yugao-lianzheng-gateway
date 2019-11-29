@@ -8,16 +8,16 @@ import java.util.List;
 
 public interface LianzhengReferenceDao extends BaseMapper<LianzhengReferenceEntity> {
     List<LianzhengReferenceEntity> getLianzhengReferenceList(@Param("type") int type,
-                                                             @Param("department") String department,
+                                                             @Param("departmentId") String departmentId,
                                                              @Param("project") String project,
                                                              @Param("pattern") String pattern,
                                                              @Param("page") int page,
                                                              @Param("size") int size);
     long getLianzhengReferenceListCount(@Param("type") int type,
-                                        @Param("department") String department,
+                                        @Param("departmentId") String departmentId,
                                         @Param("project") String project,
                                         @Param("pattern") String pattern);
     void updateLianzhengReference(@Param("lzReferenceEntity") LianzhengReferenceEntity lzReferenceEntity);
-    void deteleLianzhengReference(@Param("id") int id);
-    LianzhengReferenceEntity getLianzhengReferenceDetail(@Param("id") int id);
+    void deteleLianzhengReference(@Param("id") long id);
+    LianzhengReferenceEntity getLianzhengReferenceDetail(@Param("id") long id);
 }

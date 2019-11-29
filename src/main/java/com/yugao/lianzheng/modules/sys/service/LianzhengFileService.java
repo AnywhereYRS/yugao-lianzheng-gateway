@@ -26,6 +26,8 @@ public interface LianzhengFileService extends IService<LianzhengFileEntity> {
 
     void deleteFile(String fileId);
 
+    void updateFile(LianzhengFileEntity entity);
+
     List<LianzhengFileEntity> queryFileList(String businessId, String moduleId, String createdBy);
 
     LianzhengFileEntity getFileByFileId(String fileId);

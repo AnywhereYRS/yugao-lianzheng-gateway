@@ -1,6 +1,7 @@
 package com.yugao.lianzheng.modules.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -72,4 +73,14 @@ public class LianzhengDongtaiEntity implements Serializable {
      * 备注说明
      */
     private String remarks;
+    /**
+     * 图片ID
+     */
+    @TableField(exist = false)
+    private String imageId;
+    /**
+     * 附件ID
+     */
+    @TableField(exist = false)
+    private String fileId;
 }

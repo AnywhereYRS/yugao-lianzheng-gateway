@@ -2,6 +2,7 @@ package com.yugao.lianzheng.modules.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yugao.lianzheng.common.utils.DateUtils;
 import com.yugao.lianzheng.modules.sys.dao.LianzhengFileDao;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengFileEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity;
@@ -67,7 +68,7 @@ public class LianzhengFileServiceImpl extends ServiceImpl<LianzhengFileDao, Lian
                 fileInfo.setFinalName(finalName);
                 fileInfo.setStatus(1);//文件状态 1正常0删除
                 fileInfo.setCreatedBy(entity.getLianzhengUserId().intValue());
-                fileInfo.setCreatedAt(new Date().toString());
+                fileInfo.setCreatedAt(DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
                 //计算文件大小kb
                 long kb = new BigDecimal(file.getSize())
                         .divide(BigDecimal.valueOf(1024))
@@ -110,5 +111,10 @@ public class LianzhengFileServiceImpl extends ServiceImpl<LianzhengFileDao, Lian
     public LianzhengFileEntity getFileByFileId(String fileId) {
         LianzhengFileEntity entity = fileInfoDao.findById(fileId);
         return entity;
+    }
+
+    @Override
+    public void updateFile(LianzhengFileEntity entity){
+        fileInfoDao.updateFile(entity);
     }
 }

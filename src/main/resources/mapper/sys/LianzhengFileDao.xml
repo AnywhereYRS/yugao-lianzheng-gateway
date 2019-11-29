@@ -34,6 +34,13 @@
         from lianzheng_file where lianzheng_file_id = #{id}
     </select>
 
+    <select id="findByBusinessIdAndModuleId" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengFileEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from lianzheng_file where business_id = #{businessId} and module_id=#{moduleId}
+        limit 0,1
+    </select>
+
     <select id="getFileList"  resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengFileEntity" >
         select
         <include refid="Base_Column_List"></include>
@@ -53,5 +60,14 @@
         where lianzheng_file_id=#{id}
     </update>
 
+    <!-- 更新数据 -->
+    <update id="updateFile" parameterType="com.yugao.lianzheng.modules.sys.entity.LianzhengFileEntity">
+        update lianzheng_file
+        <set>
+            <if test="entity.businessId != null">business_id=#{entity.businessId},</if>
+            <if test="entity.moduleId != null">module_id=#{entity.moduleId},</if>
+        </set>
+        where lianzheng_file_id=#{entity.lianzhengFileId}
+    </update>
 
 </mapper>

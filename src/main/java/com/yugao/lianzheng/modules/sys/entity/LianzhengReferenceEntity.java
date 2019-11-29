@@ -37,7 +37,12 @@ public class LianzhengReferenceEntity implements Serializable {
     /**
      * 部门ID
      */
-    private String department;
+    private String departmentId;
+
+    /**
+     * 部门名称
+     */
+    private String departmentName;
 
     /**
      * 项目ID
@@ -57,7 +62,12 @@ public class LianzhengReferenceEntity implements Serializable {
     /**
      * 创建者id
      */
-    private int createdBy;
+    private int createdById;
+
+    /**
+     * 创建者名称
+     */
+    private String createdByName;
 
     /**
      * 创建时间

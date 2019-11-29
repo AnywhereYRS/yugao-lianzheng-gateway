@@ -4,9 +4,12 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.yugao.lianzheng.common.utils.DateUtils;
 import com.yugao.lianzheng.common.utils.PageBar;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengDongtaiEntity;
+import com.yugao.lianzheng.modules.sys.entity.LianzhengFileEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity;
+import com.yugao.lianzheng.modules.sys.model.ModuleCode;
 import com.yugao.lianzheng.modules.sys.service.LianzhengDongtaiService;
 import com.yugao.lianzheng.common.utils.R;
+import com.yugao.lianzheng.modules.sys.service.LianzhengFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
@@ -26,6 +29,9 @@ public class LianzhengDongtaiController extends AbstractController{
 
     @Autowired(required = false)
     private LianzhengDongtaiService lzDongtaiService;
+
+    @Autowired
+    private LianzhengFileService lianzhengFileService;
 
     @RequestMapping(method = RequestMethod.POST, path = "/addOrUpdate")
     @ResponseBody
@@ -48,6 +54,20 @@ public class LianzhengDongtaiController extends AbstractController{
             entity.setStatus(1);
             entity.setType(0);
             this.lzDongtaiService.save(entity);
+            if (StringUtils.isNotBlank(entity.getImageId())){
+                LianzhengFileEntity imagEntity = new LianzhengFileEntity();
+                imagEntity.setLianzhengFileId(entity.getImageId());
+                imagEntity.setBusinessId(id);
+                imagEntity.setModuleId(String.valueOf(ModuleCode.LIANZHENG_IMG.getCode()));
+                lianzhengFileService.updateFile(imagEntity);
+            }
+            if (StringUtils.isNotBlank(entity.getFileId())){
+                LianzhengFileEntity fileEntity = new LianzhengFileEntity();
+                fileEntity.setLianzhengFileId(entity.getFileId());
+                fileEntity.setBusinessId(id);
+                fileEntity.setModuleId(String.valueOf(ModuleCode.LIANZHENG_NEWS.getCode()));
+                lianzhengFileService.updateFile(fileEntity);
+            }
             return R.ok().put("data", entity);
         }
         //更新廉政动态

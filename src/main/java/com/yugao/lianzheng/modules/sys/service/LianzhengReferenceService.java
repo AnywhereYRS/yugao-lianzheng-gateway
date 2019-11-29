@@ -9,6 +9,6 @@ public interface LianzhengReferenceService extends IService<LianzhengReferenceEn
     List<LianzhengReferenceEntity> getLianzhengReferenceList(int type, String department, String project, String patternint,int page,int size);
     long getLianzhengReferenceListCount(int type, String department, String project, String patternint);
     void updateLianzhengReference(LianzhengReferenceEntity lzReferenceEntity);
-    void deteleLianzhengReference(int id);
-    LianzhengReferenceEntity getLianzhengReferenceDetail(int id);
+    void deteleLianzhengReference(long id);
+    LianzhengReferenceEntity getLianzhengReferenceDetail(long id);
 }

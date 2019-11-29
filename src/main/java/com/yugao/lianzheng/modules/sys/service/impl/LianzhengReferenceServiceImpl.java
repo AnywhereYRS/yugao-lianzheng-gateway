@@ -30,12 +30,12 @@ public class LianzhengReferenceServiceImpl extends ServiceImpl<LianzhengReferenc
     }
 
     @Override
-    public void deteleLianzhengReference(int id){
+    public void deteleLianzhengReference(long id){
         lzReferenceDao.deteleLianzhengReference(id);
     }
 
     @Override
-    public LianzhengReferenceEntity getLianzhengReferenceDetail(int id){
+    public LianzhengReferenceEntity getLianzhengReferenceDetail(long id){
         return lzReferenceDao.getLianzhengReferenceDetail(id);
     }
 }
