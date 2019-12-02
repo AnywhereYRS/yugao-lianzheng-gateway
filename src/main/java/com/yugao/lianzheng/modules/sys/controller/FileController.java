@@ -2,6 +2,7 @@ package com.yugao.lianzheng.modules.sys.controller;
 
 
 import cn.hutool.core.io.FileUtil;
+import com.yugao.lianzheng.common.utils.PageBar;
 import com.yugao.lianzheng.common.utils.R;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengFileEntity;
 import com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity;
@@ -141,6 +142,7 @@ public class FileController extends AbstractController {
     @ResponseBody
     public R queryFileList(@Param("businessId") String businessId,
                            @Param("moduleId") String moduleId,
+                           @Param("status") String status,
                            @Param("createdBy") String createdBy,
                            @Param("page") int page,
                            @Param("size") int size){
@@ -149,11 +151,15 @@ public class FileController extends AbstractController {
         page =  page >1 ? page : 1;
         size =  size >0 ? size : 20;
         int toIndexNum = (page -1) * size;
-        List<LianzhengFileEntity> list=this.fileInfoService.queryFileList(businessId, moduleId, createdBy,toIndexNum,size);
+        List<LianzhengFileEntity> list=this.fileInfoService.queryFileList(businessId, moduleId,status, createdBy,toIndexNum,size);
+        PageBar pagebar = new PageBar();
+        pagebar.setPage(page);
+        pagebar.setSize(size);
+        pagebar.setTotal(fileInfoService.queryFileListCount(businessId, moduleId, status,createdBy));
         if(list==null){
-            return R.ok().put("data",new ArrayList<>());
+            return R.ok().put("list",new ArrayList<>()).put("pagebar",pagebar);
         }else{
-            return R.ok().put("data",list);
+            return R.ok().put("list",list).put("pagebar",pagebar);
         }
 
     }

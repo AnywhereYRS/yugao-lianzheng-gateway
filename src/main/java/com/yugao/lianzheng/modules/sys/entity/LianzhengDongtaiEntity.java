@@ -10,6 +10,7 @@ import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -83,4 +84,10 @@ public class LianzhengDongtaiEntity implements Serializable {
      */
     @TableField(exist = false)
     private String fileId;
+
+    /**
+     * 附件信息
+     */
+    @TableField(exist = false)
+    private List<LianzhengFileEntity> fileEntity;
 }

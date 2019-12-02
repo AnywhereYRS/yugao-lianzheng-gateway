@@ -46,6 +46,7 @@
         select
         <include refid="Base_Column_List"></include>
         from lianzheng_report
+        where status_code !=2
         order by create_date desc
         limit #{page},#{size}
     </select>
@@ -55,6 +56,7 @@
         select
         count(1)
         from lianzheng_report
+        where status_code !=2
         order by create_date desc
     </select>
 

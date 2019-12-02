@@ -96,6 +96,7 @@ public class LianzhengReferenceController extends AbstractController{
         List<LianzhengReferenceEntity> list=this.lzReferenceService.getLianzhengReferenceList(type,referenceType ,department, project, pattern,toIndexNum,size);
         for (LianzhengReferenceEntity entity : list) {
             entity.setCreatedAt(entity.getCreatedAt().split(" ")[0]);
+            entity.setFileEntity(lianzhengFileService.queryFileList(entity.getLianzhengReferenceId(),null,null,null,0,20));
         }
         PageBar pagebar = new PageBar();
         pagebar.setPage(page);

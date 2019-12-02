@@ -24,11 +24,15 @@ public interface LianzhengFileService extends IService<LianzhengFileEntity> {
 
     LianzhengFileEntity uploadFile(MultipartFile file, LianzhengUserEntity entity);
 
+    LianzhengFileEntity uploadFileNew(MultipartFile file, LianzhengUserEntity entity);
+
     void deleteFile(String fileId);
 
     void updateFile(LianzhengFileEntity entity);
 
-    List<LianzhengFileEntity> queryFileList(String businessId, String moduleId, String createdBy,int page,int size);
+    List<LianzhengFileEntity> queryFileList(String businessId, String moduleId, String status, String createdBy,int page,int size);
+
+    long queryFileListCount(String businessId, String moduleId, String status,String createdBy);
 
     LianzhengFileEntity getFileByFileId(String fileId);
 

@@ -48,11 +48,26 @@
         <where>
             <if test="businessId != null">and business_id=#{businessId}</if>
             <if test="moduleId != null">and module_id=#{moduleId}</if>
+            <if test="status != null">and status=#{status}</if>
             <if test="createdBy != null">and created_by=#{createdBy}</if>
-            and status=1
+            and status!=-1
         </where>
-        order by create_time desc
+        order by created_at desc
         limit #{page},#{size}
+    </select>
+
+    <select id="getFileListCount"  resultType="java.lang.Long" >
+        select
+        count(1)
+        from lianzheng_file
+        <where>
+            <if test="businessId != null">and business_id=#{businessId}</if>
+            <if test="moduleId != null">and module_id=#{moduleId}</if>
+            <if test="status != null">and status=#{status}</if>
+            <if test="createdBy != null">and created_by=#{createdBy}</if>
+            and status!=-1
+        </where>
+        order by created_at desc
     </select>
 
     <update id="deleteFileById">
@@ -67,6 +82,8 @@
         <set>
             <if test="entity.businessId != null">business_id=#{entity.businessId},</if>
             <if test="entity.moduleId != null">module_id=#{entity.moduleId},</if>
+            <if test="entity.status != null">status=#{entity.status},</if>
+            <if test="entity.remarks != null">remarks=#{entity.remarks},</if>
         </set>
         where lianzheng_file_id=#{entity.lianzhengFileId}
     </update>

@@ -92,6 +92,7 @@ public class ReportController extends AbstractController{
         List<LianzhengReportEntity> list=this.lianzhengReportService.getLianzhengReportList(toIndexNum,size);
         for (LianzhengReportEntity entity : list) {
             entity.setCreateDate(entity.getCreateDate().substring(0,10));
+            entity.setFileEntity(lianzhengFileService.queryFileList(entity.getReportId(),null,null,null,0,20));
         }
         PageBar pagebar = new PageBar();
         pagebar.setPage(page);

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -105,4 +106,10 @@ public class LianzhengReferenceEntity implements Serializable {
      * 资料类型
      */
     private int referenceType;
+
+    /**
+     * 附件信息
+     */
+    @TableField(exist = false)
+    private List<LianzhengFileEntity> fileEntity;
 }

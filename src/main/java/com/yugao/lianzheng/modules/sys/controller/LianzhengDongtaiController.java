@@ -103,6 +103,10 @@ public class LianzhengDongtaiController extends AbstractController{
         int toIndexNum = (page -1) * size;
         List<LianzhengDongtaiEntity> list=this.lzDongtaiService.queryList(String.valueOf(user.getLianzhengUserId()), beginTime, endTime, pattern, status,toIndexNum,size);
 
+        for (LianzhengDongtaiEntity entity : list) {
+            entity.setCreatedAt(entity.getCreatedAt().substring(0,19));
+            entity.setFileEntity(lianzhengFileService.queryFileList(entity.getLianzhengDongtaiId(),null,null,null,0,20));
+        }
         PageBar pagebar = new PageBar();
         pagebar.setPage(page);
         pagebar.setSize(size);
