@@ -209,22 +209,26 @@ CREATE TABLE `lianzheng_contact`  (
 
 
 DROP TABLE IF EXISTS `lianzheng_reference`;
-CREATE TABLE `lianzheng_reference`  (
+CREATE TABLE `lianzheng_reference` (
   `lianzheng_reference_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键，唯一标识',
-  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '廉政资料的标题或名称',
-  `type` int NOT NULL COMMENT '类别，对应lianzheng_reference_type中的数据',
-  `department` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '部门ID，针对部门资料',
-  `project` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '项目ID，针对工程项目资料类型',
-  `project_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '项目名称，针对工程项目资料类型',
-  `content` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '内容和说明',
-  `created_by` bigint(20) NOT NULL COMMENT '创建者id',
-  `created_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_by` bigint(20) NULL COMMENT '最后一次修改者id',
-  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后一次修改时间',
-  `status` int NOT NULL DEFAULT 0 COMMENT '状态：1-正常，-1-删除，0-草稿',
-  `remarks` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '备注说明',
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT '廉政资料的标题或名称',
+  `type` int(11) NOT NULL COMMENT '类别，对应lianzheng_reference_type中的数据',
+  `department_id` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '部门ID，针对部门资料',
+  `department_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '部门名称',
+  `project` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '项目ID，针对工程项目资料类型',
+  `project_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '项目名称，针对工程项目资料类型',
+  `content` text COLLATE utf8_unicode_ci COMMENT '内容和说明',
+  `created_by_id` bigint(20) NOT NULL COMMENT '创建者id',
+  `created_by_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '创建者名称',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_by` bigint(20) DEFAULT NULL COMMENT '最后一次修改者id',
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次修改时间',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态：1-正常，-1-删除，0-草稿',
+  `remarks` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '备注说明',
+  `reference_type` tinyint(2) DEFAULT NULL COMMENT '资料类型',
   PRIMARY KEY (`lianzheng_reference_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '廉政资料主体信息' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=1200386791244738562 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='廉政资料主体信息';
+
 
 
 DROP TABLE IF EXISTS `lianzheng_reference_type`;
@@ -307,4 +311,20 @@ CREATE TABLE `lianzheng_file`  (
   PRIMARY KEY (`lianzheng_file_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '廉政附件信息。通用，廉政资料，廉政动态等涉及附件上传的板块都直接使用该表' ROW_FORMAT = Dynamic;
 
+DROP TABLE IF EXISTS `lianzheng_report`;
+CREATE TABLE `lianzheng_report` (
+  `report_id` bigint(20) NOT NULL COMMENT '报告ID',
+  `report_title` varchar(256) DEFAULT NULL COMMENT '报告标题',
+  `from_date` datetime DEFAULT NULL COMMENT '报告周期开始时间',
+  `to_date` datetime DEFAULT NULL COMMENT '报告周期截至时间',
+  `create_date` datetime DEFAULT NULL COMMENT '报告生成时间',
+  `create_user_id` int(20) DEFAULT NULL COMMENT '报告创建人ID',
+  `create_user_name` varchar(64) DEFAULT NULL COMMENT '报告创建人名称',
+  `status_code` tinyint(4) DEFAULT '0' COMMENT '报告状态编码 0：未发布 1：已发布 2：已删除',
+  `status_desc` varchar(16) DEFAULT '' COMMENT '报告状态描述',
+  `update_date` datetime DEFAULT NULL COMMENT '报告更新时间',
+  `update_user_id` int(20) DEFAULT NULL COMMENT '报告更新人ID',
+  `update_user_name` varchar(64) DEFAULT '' COMMENT '报告更新人名称',
+  PRIMARY KEY (`report_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='廉政报告';
 
