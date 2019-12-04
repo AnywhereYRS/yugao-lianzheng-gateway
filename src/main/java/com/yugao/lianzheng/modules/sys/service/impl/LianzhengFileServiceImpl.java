@@ -71,7 +71,7 @@ public class LianzhengFileServiceImpl extends ServiceImpl<LianzhengFileDao, Lian
                 fileInfo.setPath(uploadLocal+year+"/"+monthValue+"/"+finalName);
                 fileInfo.setFinalName(finalName);
                 fileInfo.setStatus(1);//文件状态 1正常0删除
-                fileInfo.setCreatedBy(entity.getLianzhengUserId().intValue());
+                fileInfo.setCreatedBy(entity.getUserId().intValue());
                 fileInfo.setCreatedAt(DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
                 //计算文件大小kb
                 long kb = new BigDecimal(file.getSize())
@@ -124,7 +124,7 @@ public class LianzhengFileServiceImpl extends ServiceImpl<LianzhengFileDao, Lian
             fileInfo.setPath(uploadLocal+year+"/"+monthValue+"/"+finalName);
             fileInfo.setFinalName(finalName);
             fileInfo.setStatus(0);//文件状态 1正常0删除
-            fileInfo.setCreatedBy(entity.getLianzhengUserId().intValue());
+            fileInfo.setCreatedBy(entity.getUserId().intValue());
             fileInfo.setCreatedAt(DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
             //计算文件大小kb
             long kb = new BigDecimal(file.getSize())

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yugao.lianzheng.modules.sys.dao.LianzhengUserDao">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id AS "userId", fid AS "fid", username AS "username", password AS "password",
+        salt AS "salt", email AS "email", mobile AS "mobile", status AS "status",
+        create_user_id AS "createdUserId", create_time AS "createTime",update_time AS "updateTime"
+    </sql>
+
+    <!-- 更新数据 -->
+    <update id="updateUser" parameterType="com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity">
+        update sys_user
+        <set>
+            <if test="entity.username != null">username=#{entity.username},</if>
+            <if test="entity.password != null">password=#{entity.password},</if>
+            <if test="entity.email != null">email=#{entity.email},</if>
+            <if test="entity.mobile != null">mobile=#{entity.mobile},</if>
+            <if test="entity.status != null">status=#{entity.status},</if>
+            <if test="entity.updateTime != null">update_time=#{entity.updateTime}</if>
+        </set>
+        where user_id=#{entity.userId}
+    </update>
+
+    <!-- 查询列表 -->
+    <select id="queryList" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity">
+        select
+        <include refid="Base_Column_List"></include>
+        from sys_user
+        <where>
+            <if test="status != null">status=#{status}</if>
+        </where>
+        limit #{page},#{size}
+    </select>
+
+    <!-- 列表总数 -->
+    <select id="queryListCount" resultType="java.lang.Long">
+        select
+        count(1)
+        from sys_user
+        <where>
+            <if test="status != null">status=#{status}</if>
+        </where>
+    </select>
+
+    <!-- 查询详情 -->
+    <select id="getDetailByUserId" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity">
+        select
+        <include refid="Base_Column_List"></include>
+        from sys_user
+        where user_id=#{userId}
+        limit 0,1
+    </select>
+
+    <!-- 查询详情 -->
+    <select id="getDetailByUserName" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity">
+        select
+        <include refid="Base_Column_List"></include>
+        from sys_user
+        where username=#{userName}
+        limit 0,1
+    </select>
+</mapper>

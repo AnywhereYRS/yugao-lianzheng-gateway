@@ -6,6 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 登录
  */
@@ -14,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class SsoController extends AbstractController{
 
-    private User user = null;
+    private List<User> user = new ArrayList<>();
 
     @RequestMapping(method = RequestMethod.GET, path = "/login")
     @ResponseBody

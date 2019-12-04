@@ -20,7 +20,7 @@ public abstract class AbstractController {
     protected LianzhengUserEntity getUser() {
         //return (LianzhengUserEntity) SecurityUtils.getSubject().getPrincipal();
         LianzhengUserEntity user = new LianzhengUserEntity();
-        user.setLianzhengUserId(1l);
+        user.setUserId(1l);
         return user;
     }
 

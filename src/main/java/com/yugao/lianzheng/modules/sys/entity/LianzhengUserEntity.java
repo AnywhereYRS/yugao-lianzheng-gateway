@@ -10,20 +10,18 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
+
 
 /**
  * 系统用户
  *
- * @author Mark sunlightcs@gmail.com
+ * @author yangrenshan
  */
 @Data
 @ToString
-@TableName("lianzheng_user")
+@TableName("sys_user")
 public class LianzhengUserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -31,7 +29,7 @@ public class LianzhengUserEntity implements Serializable {
      * 用户ID
      */
     @TableId
-    private Long LianzhengUserId;
+    private Long userId;
 
     /**
      * 用户名
@@ -59,24 +57,19 @@ public class LianzhengUserEntity implements Serializable {
     private String mobile;
 
     /**
-     * 创建者id
-     */
-    private int createdBy;
-
-    /**
      * 创建时间
      */
-    private String createdAt;
+    private String createTime;
 
     /**
-     * 最后一次修改者id
+     * 创建者id
      */
-    private int updatedBy;
+    private String createdUserId;
 
     /**
      * 最后一次修改时间
      */
-    private String updatedAt;
+    private String updateTime;
 
     /**
      * 状态：1-正常，-1-禁用
@@ -84,12 +77,12 @@ public class LianzhengUserEntity implements Serializable {
     private int status;
 
     /**
-     * 备注说明
-     */
-    private String remarks;
-
-    /**
      * fid 关联同步人员表的唯一id
      */
     private String fid;
+    /**
+     * 用户角色信息
+     */
+    @TableField(exist = false)
+    private List<LianzhengUserRoleEntity> roleEntityList;
 }

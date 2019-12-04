@@ -48,8 +48,8 @@ public class LianzhengDongtaiController extends AbstractController{
             }
             String id = IdWorker.getIdStr();
             entity.setLianzhengDongtaiId(id);
-            entity.setCreatedBy(user.getLianzhengUserId().intValue());
-            entity.setUpdatedBy(user.getLianzhengUserId().intValue());
+            entity.setCreatedBy(user.getUserId().intValue());
+            entity.setUpdatedBy(user.getUserId().intValue());
             entity.setCreatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
             entity.setUpdatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
             entity.setStatus(NewsCode.WAIT_PUBLISH.getCode());
@@ -101,7 +101,7 @@ public class LianzhengDongtaiController extends AbstractController{
         page =  page >1 ? page : 1;
         size =  size >0 ? size : 20;
         int toIndexNum = (page -1) * size;
-        List<LianzhengDongtaiEntity> list=this.lzDongtaiService.queryList(String.valueOf(user.getLianzhengUserId()), beginTime, endTime, pattern, status,toIndexNum,size);
+        List<LianzhengDongtaiEntity> list=this.lzDongtaiService.queryList(String.valueOf(user.getUserId()), beginTime, endTime, pattern, status,toIndexNum,size);
 
         for (LianzhengDongtaiEntity entity : list) {
             entity.setCreatedAt(entity.getCreatedAt().substring(0,19));
@@ -110,7 +110,7 @@ public class LianzhengDongtaiController extends AbstractController{
         PageBar pagebar = new PageBar();
         pagebar.setPage(page);
         pagebar.setSize(size);
-        pagebar.setTotal(lzDongtaiService.queryListCount(String.valueOf(user.getLianzhengUserId()), beginTime, endTime, pattern, status));
+        pagebar.setTotal(lzDongtaiService.queryListCount(String.valueOf(user.getUserId()), beginTime, endTime, pattern, status));
         return R.ok().put("list",list).put("pagebar",pagebar);
     }
 

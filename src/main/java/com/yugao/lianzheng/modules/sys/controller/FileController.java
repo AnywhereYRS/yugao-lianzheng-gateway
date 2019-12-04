@@ -153,7 +153,7 @@ public class FileController extends AbstractController {
                            @Param("page") int page,
                            @Param("size") int size){
         LianzhengUserEntity user=getUser();
-        createdBy = createdBy == null || createdBy.length()<=0 ? String.valueOf(user.getLianzhengUserId()) : createdBy;
+        createdBy = createdBy == null || createdBy.length()<=0 ? String.valueOf(user.getUserId()) : createdBy;
         page =  page >1 ? page : 1;
         size =  size >0 ? size : 20;
         int toIndexNum = (page -1) * size;
