@@ -180,8 +180,8 @@ public class LianzhengFileServiceImpl extends ServiceImpl<LianzhengFileDao, Lian
     }
 
     @Override
-    public LianzhengFileEntity getFile(String businessId, String moduleId){
-        return fileInfoDao.findByBusinessIdAndModuleId(businessId,moduleId);
+    public LianzhengFileEntity getFile(String businessId, String moduleId, String fileId){
+        return fileInfoDao.findByBusinessIdAndModuleId(businessId,moduleId,fileId);
     }
 
     @Override

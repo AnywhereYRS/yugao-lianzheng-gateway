@@ -36,6 +36,6 @@ public interface LianzhengFileService extends IService<LianzhengFileEntity> {
 
     LianzhengFileEntity getFileByFileId(String fileId);
 
-    LianzhengFileEntity getFile(String businessId, String moduleId);
+    LianzhengFileEntity getFile(String businessId, String moduleId, String fileId);
 
 }

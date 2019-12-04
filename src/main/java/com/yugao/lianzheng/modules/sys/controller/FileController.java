@@ -48,8 +48,11 @@ public class FileController extends AbstractController {
      * @return
      */
     @GetMapping("/preview")
-    public void open(HttpServletResponse response, @Param("businessId") String businessId,@Param("moduleId") String moduleId) throws IOException {
-        LianzhengFileEntity entity = fileInfoService.getFile(businessId,moduleId);
+    public void open(HttpServletResponse response,
+                     @Param("businessId") String businessId,
+                     @Param("moduleId") String moduleId,
+                     @Param("fileId") String fileId) throws IOException {
+        LianzhengFileEntity entity = fileInfoService.getFile(businessId,moduleId,fileId);
         if (null == entity || null == entity.getPath()) {
             fileIsExist(response);
             return;
@@ -93,8 +96,11 @@ public class FileController extends AbstractController {
      * @return
      */
     @GetMapping("/download")
-    public void download(HttpServletResponse response, @Param("businessId") String businessId,@Param("moduleId") String moduleId) throws IOException {
-        LianzhengFileEntity entity = fileInfoService.getFile(businessId,moduleId);
+    public void download(HttpServletResponse response,
+                         @Param("businessId") String businessId,
+                         @Param("moduleId") String moduleId,
+                         @Param("fileId") String fileId) throws IOException {
+        LianzhengFileEntity entity = fileInfoService.getFile(businessId,moduleId,fileId);
         if (null == entity || null == entity.getPath()) {
             fileIsExist(response);
             return;

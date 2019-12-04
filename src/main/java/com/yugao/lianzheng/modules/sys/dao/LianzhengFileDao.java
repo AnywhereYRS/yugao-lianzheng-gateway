@@ -21,7 +21,9 @@ import java.util.List;
 public interface LianzhengFileDao extends BaseMapper<LianzhengFileEntity> {
 
     LianzhengFileEntity findById(@Param("id") String id);
-    LianzhengFileEntity findByBusinessIdAndModuleId(@Param("businessId") String businessId,@Param("moduleId") String moduleId);
+    LianzhengFileEntity findByBusinessIdAndModuleId(@Param("businessId") String businessId,
+                                                    @Param("moduleId") String moduleId,
+                                                    @Param("fileId") String fileId);
     void deleteFileById(@Param("id") String id);
     void updateFile(@Param("entity") LianzhengFileEntity entity);
     List<LianzhengFileEntity> getFileList(@Param("businessId") String businessId,
