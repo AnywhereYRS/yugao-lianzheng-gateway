@@ -22,7 +22,6 @@ public class DeptartmentController  extends AbstractController{
     @RequestMapping(method = RequestMethod.GET, path = "/list")
     @ResponseBody
     public R query() {
-        LianzhengUserEntity user=getUser();
         String data = departmentService.getOrgList();
         JSONObject page = (JSONObject)JSONObject.parseObject(data).get("page");
         JSONArray list = (JSONArray)page.get("list");

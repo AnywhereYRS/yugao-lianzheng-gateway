@@ -48,8 +48,8 @@ public class LianzhengDongtaiController extends AbstractController{
             }
             String id = IdWorker.getIdStr();
             entity.setLianzhengDongtaiId(id);
-            entity.setCreatedBy(user.getUserId().intValue());
-            entity.setUpdatedBy(user.getUserId().intValue());
+            entity.setCreatedBy(Integer.parseInt(user.getUserId()));
+            entity.setUpdatedBy(Integer.parseInt(user.getUserId()));
             entity.setCreatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
             entity.setUpdatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
             entity.setStatus(NewsCode.WAIT_PUBLISH.getCode());

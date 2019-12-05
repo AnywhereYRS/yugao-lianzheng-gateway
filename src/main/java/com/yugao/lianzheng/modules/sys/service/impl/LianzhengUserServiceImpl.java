@@ -19,6 +19,11 @@ public class LianzhengUserServiceImpl extends ServiceImpl<LianzhengUserDao, Lian
     public void updateUser(LianzhengUserEntity entity){
         lianzhengUserDao.updateUser(entity);
     }
+
+    @Override
+    public void updateUserByfid(LianzhengUserEntity entity){
+        lianzhengUserDao.updateUserByfid(entity);
+    }
     @Override
     public List<LianzhengUserEntity> queryList(String status, int page, int size){
         return lianzhengUserDao.queryList(status,page,size);
@@ -34,5 +39,10 @@ public class LianzhengUserServiceImpl extends ServiceImpl<LianzhengUserDao, Lian
     @Override
     public LianzhengUserEntity getDetailByUserName(String username){
         return lianzhengUserDao.getDetailByUserName(username);
+    }
+
+    @Override
+    public LianzhengUserEntity getDetailByMobile(String mobile){
+        return lianzhengUserDao.getDetailByMobile(mobile);
     }
 }

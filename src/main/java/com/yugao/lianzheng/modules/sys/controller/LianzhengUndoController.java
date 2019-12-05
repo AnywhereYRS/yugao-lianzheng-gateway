@@ -37,8 +37,8 @@ public class LianzhengUndoController extends AbstractController{
         if(StringUtils.isBlank(entity.getLianzhengUndoId())){
             String id = IdWorker.getIdStr();
             entity.setLianzhengUndoId(id);
-            entity.setCreatedBy(user.getUserId().intValue());
-            entity.setUpdatedBy(user.getUserId().intValue());
+            entity.setCreatedBy(Integer.parseInt(user.getUserId()));
+            entity.setUpdatedBy(Integer.parseInt(user.getUserId()));
             entity.setCreatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
             entity.setUpdatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
             entity.setStatus(1);

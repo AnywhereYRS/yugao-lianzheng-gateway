@@ -8,8 +8,10 @@ import java.util.List;
 
 public interface LianzhengUserService extends IService<LianzhengUserEntity> {
     void updateUser(LianzhengUserEntity entity);
+    void updateUserByfid(LianzhengUserEntity entity);
     List<LianzhengUserEntity> queryList(String status, int page, int size);
     long queryListCount( String status);
     LianzhengUserEntity getDetailByUserId(String userId);
     LianzhengUserEntity getDetailByUserName(String userName);
+    LianzhengUserEntity getDetailByMobile(String mobile);
 }

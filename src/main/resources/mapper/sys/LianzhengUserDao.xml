@@ -23,6 +23,20 @@
         where user_id=#{entity.userId}
     </update>
 
+    <!-- 更新数据 -->
+    <update id="updateUserByfid" parameterType="com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity">
+        update sys_user
+        <set>
+            <if test="entity.username != null">username=#{entity.username},</if>
+            <if test="entity.password != null">password=#{entity.password},</if>
+            <if test="entity.email != null">email=#{entity.email},</if>
+            <if test="entity.mobile != null">mobile=#{entity.mobile},</if>
+            <if test="entity.status != null">status=#{entity.status},</if>
+            <if test="entity.updateTime != null">update_time=#{entity.updateTime}</if>
+        </set>
+        where fid=#{entity.fid}
+    </update>
+
     <!-- 查询列表 -->
     <select id="queryList" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity">
         select
@@ -50,6 +64,15 @@
         <include refid="Base_Column_List"></include>
         from sys_user
         where user_id=#{userId}
+        limit 0,1
+    </select>
+
+    <!-- 查询详情 -->
+    <select id="getDetailByMobile" resultType="com.yugao.lianzheng.modules.sys.entity.LianzhengUserEntity">
+        select
+        <include refid="Base_Column_List"></include>
+        from sys_user
+        where mobile=#{mobile}
         limit 0,1
     </select>
 

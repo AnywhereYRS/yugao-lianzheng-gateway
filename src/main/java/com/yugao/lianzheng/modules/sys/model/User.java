@@ -11,5 +11,7 @@ public class User implements Serializable {
     public String deptId;
     public String deptName;
     public String userFace;
-    public long expiresIn;
+    public String mobile;
+    public String expiresIn;
+    public String loginTime;
 }

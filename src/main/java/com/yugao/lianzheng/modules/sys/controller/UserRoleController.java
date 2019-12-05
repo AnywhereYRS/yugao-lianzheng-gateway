@@ -14,7 +14,10 @@ import com.yugao.lianzheng.modules.sys.service.LianzhengUserRoleService;
 import com.yugao.lianzheng.modules.sys.service.LianzhengUserService;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,15 +45,16 @@ public class UserRoleController extends AbstractController{
         LianzhengUserEntity user=getUser();
 
         // 新增用户
-        if(entity.getUserId()<=0){
+        if(StringUtils.isBlank(entity.getUserId())){
             LianzhengUserEntity exist = lianzhengUserService.getDetailByUserName(entity.getUsername());
             if (ObjectUtils.isNotEmpty(exist)) {
                 return R.error("用户已存在！");
             }
             String id = IdWorker.getIdStr();
-            entity.setUserId(Long.valueOf(id));
-            entity.setPassword("123456");
-            entity.setSalt("lianzheng");
+            entity.setUserId(id);
+            String salt = RandomStringUtils.randomAlphanumeric(20);
+            entity.setPassword(new Sha256Hash("000000", salt).toHex()); //设置初始密码 000000
+            entity.setSalt(salt);
             entity.setStatus(UserStatusCode.NORMAL_USER.getCode());
             entity.setCreateTime(DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
             entity.setUpdateTime(DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
@@ -120,11 +124,22 @@ public class UserRoleController extends AbstractController{
     public R disableLianzhengUser(@Param("userId") String userId) throws Exception {
         LianzhengUserEntity user=getUser();
         LianzhengUserEntity entity = new LianzhengUserEntity();
-        entity.setUserId(Long.valueOf(userId));
+        entity.setUserId(userId);
         entity.setStatus(UserStatusCode.DISABLE_USER.getCode());
         lianzhengUserService.updateUser(entity);
         lianzhengUserRoleService.deleteUserRole(userId,null);
         return R.ok();
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/enable")
+    @ResponseBody
+    public R enableLianzhengUser(@Param("userId") String userId) throws Exception {
+        LianzhengUserEntity user=getUser();
+        LianzhengUserEntity entity = new LianzhengUserEntity();
+        entity.setUserId(userId);
+        entity.setStatus(UserStatusCode.NORMAL_USER.getCode());
+        lianzhengUserService.updateUser(entity);
+        lianzhengUserRoleService.deleteUserRole(userId,null);
+        return R.ok();
+    }
 }

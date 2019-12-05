@@ -46,8 +46,8 @@ public class LianzhengReferenceController extends AbstractController{
             }
             String id = IdWorker.getIdStr();
             entity.setLianzhengReferenceId(id);
-            entity.setCreatedById(user.getUserId().intValue());
-            entity.setUpdatedBy(user.getUserId().intValue());
+            entity.setCreatedById(Integer.parseInt(user.getUserId()));
+            entity.setUpdatedBy(Integer.parseInt(user.getUserId()));
             entity.setCreatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
             entity.setUpdatedAt(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
             entity.setStatus(1);
